@@ -40,3 +40,8 @@ def delete_food(request, food_id):
     food = get_object_or_404(Food, id=food_id)
     food.delete()
     return redirect('food_list')
+
+def home(request):
+    foodtypes = FoodType.objects.all()
+    foods_by_category = {foodtype.name: Food.objects.filter(idtype=foodtype) for foodtype in foodtypes}
+    return render(request, 'foodadd/home.html', {'foods_by_category': foods_by_category})

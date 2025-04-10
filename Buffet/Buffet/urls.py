@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from foodadd import views as foodadd_views
+from Buffet import views as buffet_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('foodtypes/add/', foodadd_views.add_food_type, name='add_food_type'),
     path('foods/edit/<str:food_id>/', foodadd_views.edit_food, name='edit_food'),
     path('foods/delete/<str:food_id>/', foodadd_views.delete_food, name='delete_food'),
+    path('', buffet_views.home, name='home'),
 ]

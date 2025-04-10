@@ -1,0 +1,68 @@
+<!-- filepath: d:\_DUT\Nam 3(2024 - 2025)\QLDA\project\Buffet\templates\Buffet\home.html -->
+{% extends 'Buffet/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div style="display: flex;">
+    <!-- Sidebar for categories -->
+    <div style="width: 25%; padding: 10px; border-right: 1px solid #ccc;">
+        <h2>Categories</h2>
+        <ul id="category-list" style="list-style: none; padding: 0;">
+            {% for category in foods_by_category.keys %}
+                <li style="margin-bottom: 10px;">
+                    <a href="#" class="category-link" data-category="{{ category }}" style="text-decoration: none; color: #007BFF;">
+                        {{ category }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Content area for items -->
+    <div style="width: 75%; padding: 10px;" id="items-container">
+        <h2>All Foods</h2>
+        <ul style="list-style: none; padding: 0;" id="items-list"></ul>
+    </div>
+</div>
+
+<!-- Embed the foods_by_category data as a JSON script -->
+{{ foods_by_category|json_script:"foods-data" }}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const categoryLinks = document.querySelectorAll('.category-link');
+        const itemsContainer = document.getElementById('items-container');
+        const itemsList = document.getElementById('items-list');
+        const items = JSON.parse(document.getElementById('foods-data').textContent);
+
+        // Function to render a list of items
+        function renderItems(title, itemArray) {
+            itemsContainer.querySelector('h2').textContent = title;
+            itemsList.innerHTML = '';
+            itemArray.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${item.name} - ${item.price}`;
+                listItem.style.marginBottom = '10px';
+                itemsList.appendChild(listItem);
+            });
+        }
+
+        // Show all items on initial load
+        let allItems = [];
+        Object.values(items).forEach(itemList => {
+            allItems = allItems.concat(itemList);
+        });
+        renderItems("All Foods", allItems);
+
+        // When category is clicked
+        categoryLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const category = this.getAttribute('data-category');
+                renderItems(category, items[category] || []);
+            });
+        });
+    });
+</script>
+{% endblock %}

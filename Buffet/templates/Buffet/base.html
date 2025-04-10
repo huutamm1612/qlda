@@ -1,0 +1,17 @@
+<!-- filepath: d:\_DUT\Nam 3(2024 - 2025)\QLDA\project\Buffet\templates\Buffet\base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Buffet{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'food_list' %}">Food List</a>
+    </nav>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
