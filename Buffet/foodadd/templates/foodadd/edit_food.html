@@ -1,0 +1,27 @@
+<!-- filepath: d:\_DUT\Nam 3(2024 - 2025)\QLDA\project\Buffet\foodadd\templates\foodadd\edit_food.html -->
+{% extends 'foodadd/base.html' %}
+
+{% block title %}Edit Food{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Edit Food</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" name="name" value="{{ food.name }}" required><br>
+        <label for="price">Price:</label>
+        <input type="text" name="price" value="{{ food.price }}" required><br>
+        <label for="idtype">Food Type:</label>
+        <select name="idtype" required>
+            {% for foodtype in foodtypes %}
+                <option value="{{ foodtype.id }}" {% if foodtype.id == food.idtype.id %}selected{% endif %}>
+                    {{ foodtype.name }}
+                </option>
+            {% endfor %}
+        </select><br>
+        <button type="submit" class="btn-add">Save</button>
+    </form>
+    <a href="{% url 'food_list' %}" class="btn-back">Back to Food List</a>
+</div>
+{% endblock %}

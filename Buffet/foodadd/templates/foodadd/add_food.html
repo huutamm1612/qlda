@@ -1,0 +1,26 @@
+{% extends 'foodadd/base.html' %}
+
+{% block title %}Add Food{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Add Food</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="id">ID:</label>
+        <input type="text" name="id" required><br>
+        <label for="idtype">Food Type:</label>
+        <select name="idtype" required>
+            {% for foodtype in foodtypes %}
+                <option value="{{ foodtype.id }}">{{ foodtype.name }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="name">Name:</label>
+        <input type="text" name="name" required><br>
+        <label for="price">Price:</label>
+        <input type="text" name="price" required><br>
+        <button type="submit" class="btn-add">Add</button>
+    </form>
+    <a href="{% url 'food_list' %}" class="btn-back">Back to Food List</a>
+</div>
+{% endblock %}

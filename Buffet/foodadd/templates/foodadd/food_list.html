@@ -1,0 +1,41 @@
+<!-- filepath: d:\_DUT\Nam 3(2024 - 2025)\QLDA\project\Buffet\foodadd\templates\foodadd\food_list.html -->
+{% extends 'foodadd/base.html' %}
+
+{% block title %}Food List{% endblock %}
+
+{% block content %}
+<h1>Food List</h1>
+<a href="{% url 'add_food' %}" class="btn-add">Add Food</a>
+<a href="{% url 'add_food_type' %}" class="btn-add">Add Food Type</a>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Food Type</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for food in foods %}
+        <tr>
+            <td>{{ food.id }}</td>
+            <td>{{ food.name }}</td>
+            <td>{{ food.price }}</td>
+            <td>{{ food.idtype.name }}</td>
+            <td>
+                <a href="{% url 'edit_food' food.id %}" class="btn btn-edit">Edit</a>
+            </td>
+            <td>
+                <form method="post" action="{% url 'delete_food' food.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-delete">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
